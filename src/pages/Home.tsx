@@ -9,16 +9,33 @@ export function Home() {
   const [tasks, setTasks] = useState<Task[]>([]);
 
   function handleAddTask(newTaskTitle: string) {
-    //TODO - add new task
-  }
+    const newTask = {
+      id: new Date().getTime(),
+      title: newTaskTitle,
+      done: false,
+    };
+    setTasks( oldState => [...oldState, newTask] );
+  };
 
   function handleToggleTaskDone(id: number) {
-    //TODO - toggle task done if exists
-  }
+    const updatedTasks = tasks.map( task => {
+      if (task.id === id) {
+        const { done } = task;
+        return {
+          ...task,
+          done: !done,
+        }
+      } else {
+        return {...task}
+      }
+    });
+    setTasks(updatedTasks);
+  };
 
   function handleRemoveTask(id: number) {
-    //TODO - remove task from state
-  }
+    const newList = tasks.filter( task => task.id !== id );
+    setTasks(newList);
+  };
 
   return (
     <View style={styles.container}>
@@ -33,11 +50,11 @@ export function Home() {
       />
     </View>
   )
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#EBEBEB'
   }
-})
+});
